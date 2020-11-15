@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+//Для прогнозирования нарушений репродуктивной функции у поступающих на работу
+function Calc1() {
+    var x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, reg1, pow1, y1;
+    x1 = $('[name="atr1_1"]').val();  //возраст; 
+    x2 = $('[name="atr1_2"]').val();  //уровень образования;
+    x3 = $('[name="atr1_3"]').val();  // место проживания;
+    x4 = $('[name="atr1_4"]').val();  //состав семьи (с кем проживаете);  
+    x5 = $('[name="atr1_5"]').val();  //оценка питания; 
+    x6 = $('[name="atr1_6"]').val();  //употребление алкоголя; 
+    x7 = $('[name="atr1_7"]').val();  //регулярность менструаций; 
+    x8 = $('[name="atr1_8"]').val();  //используемые методы контрацепции; 
+    x9 = $('[name="atr1_9"]').val();   
+	if  (x9 == '') {x9 = 0;}  //число абортов; 
+    x10 = $('[name="atr1_10"]').val(); 
+	if  (x10 == '') {x10 = 0;}   //Наличие гинекологических заболеваний
+
+    if (x1=='' || x2=='' || x3=='' || x4=='' || x5=='' || x6=='' || x7=='' || x8=='' )
+        { 
+		    return('Ошибка');
+		}
+	else
+	{
+    //исходные коэффициенты умножены на 10000 для устранения ошибок в работы с длинными дробями в js
+    reg1 = Math.round(-27109.6 + 6691.1* x1 - 1681.83* x2 + 2778.52* x3 - 1518.88* x4 - 14557.9* x5 + 1825.04* x6 
+    - 5732.99* x7 - 7661.58* x8 + 137.474* x9 + 53489.1* x10)/10000;
+    /*
+    0 - 0,29 – низкая вероятность развития нарушений репродуктивной си-стемы;  
+    0,30 - 0,69 – средняя вероятность развития нарушений репродуктивной системы; 
+    0,70 - 1,00 – высокая вероятность развития нарушений репродуктивной системы.
+    */
+    pow1 = Math.pow(Math.E, reg1);
+    y1 = Math.round( (pow1/( 1 + pow1))*1000)/1000; //округление до 3 знаков после запятой
+    //TODO сохранение в файл - согласовать с разработчиками
+
+    switch(true) {
+	case (y1 < 0.3): {
+		return 'низкая вероятность развития нарушений репродуктивной системы';  
+		break;
+	    }
+	case (y1 < 0.7): {
+		return 'средняя вероятность развития нарушений репродуктивной системы';
+		break;
+	    }
+	default: {
+		return 'высокая вероятность развития нарушений репродуктивной системы'
+		break;
+	    }
+    }
+	}
+}
+
+//Для прогнозирования нарушений репродуктивной функции у работающих на производстве женщин
+function Calc2() {
+    var x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, reg2, pow1, y2;
+    x1 = $('[name="atr2_1"]').val();  //возраст; 
+    x2 = $('[name="atr2_2"]').val();  //общий трудовой стаж;
+    x3 = $('[name="atr2_3"]').val();  // наличие профессиональных вредностей;  
+    if ( x3 == 0 ) { x4 = 0;}
+      else { x4 = $('[name="atr2_4"]').val(); }  // периодичность влияния проф. вредностей; 
+    x5 = $('[name="atr2_5"]').val(); //состав семьи (с кем проживаете);  
+    x6 = $('[name="atr2_6"]').val(); //оценка питания; 
+    x7 = $('[name="atr2_7"]').val(); //употребление алкоголя; 
+    x8 = $('[name="atr2_8"]').val(); //регулярность менструаций; 
+    x9 = $('[name="atr2_9"]').val(); //используемые методы контрацепции; 
+    x10 = $('[name="atr2_10"]').val();
+    if  (x10 == '') {x10 = 0;}  //число абортов; 
+    x11 = $('[name="atr2_11"]').val(); 
+	
+    if (x1=='' || x2=='' || x3=='' || x4=='' || x5=='' || x6=='' || x7=='' || x8=='' || x9=='' || x10==''|| x11=='')
+        { 
+		    return('Ошибка');
+		}
+	else
+	{
+	
+    //исходные коэффициенты умножены на 10000 для устранения ошибок в работы с длинными дробями в js
+    reg2 = Math.round(-24939.8 + 5000.34*x1 + 73.1308*x2 - 3574.61*x3 + 3576.27*x4 - 1428.78*x5 
+      - 14628.2*x6 + 1361.42*x7 - 5835.83*x8 - 7807.61*x9 + 95.7552*x10 + 53619.4*x11)/10000;
+    /*
+    0 - 0,29 – низкая вероятность развития нарушений репродуктивной си-стемы;  
+    0,30 - 0,69 – средняя вероятность развития нарушений репродуктивной системы; 
+    0,70 - 1,00 – высокая вероятность развития нарушений репродуктивной системы.
+    */
+    pow1 = Math.pow(Math.E, reg2);
+    y2 = Math.round( (pow1/( 1 + pow1))*1000)/1000; //округление до 3 знаков после запятой
+    //TODO сохранение в файл - согласовать с разработчиками
+    switch(true) {
+	case (y2 < 0.3): {
+		return 'низкая вероятность развития нарушений репродуктивной системы';  
+		break;
+	    }
+	case (y2 < 0.7): {
+		return 'средняя вероятность развития нарушений репродуктивной системы';
+		break;
+	    }
+	default: {
+		return 'высокая вероятность развития нарушений репродуктивной системы'
+		break;
+	    }
+    }
+	}
+}
+
+// Для прогнозирования состояния здоровья женщин с нарушением репродуктивной функции
+function Calc3() {
+    var x1, x2, x3, x4, x5, x6, x7, x8, x9, y3, v1, v2;
+    x1 = $('[name="atr3_1"]').val();  //возраст; 
+    v1 = $('[name="atr3_2"]').val();  //вес
+    v2 = $('[name="atr3_3"]').val();  //рост
+    x_imt = v1 / Math.pow((v2/100), 2);
+    x_imt = Math.round((x_imt)*100)/100;
+    x2 = x_imt;                     //ИМТ;  
+    x3 = $('[name="atr3_4"]').val();  //общий трудовой стаж;
+    x4 = $('[name="atr3_5"]').val();  // санитарно-гигиенические условия труда;
+    x5 = $('[name="atr3_6"]').val();  //семейные отношения;  
+    x6 = $('[name="atr3_7"]').val();  //уровень материального обеспечения; 
+    x7 = $('[name="atr3_8"]').val();  //длительность пребывания на свежем воздухе; 
+    x8 = $('[name="atr3_9"]').val(); //– возраст начала половой жизни; 
+    x9 = $('[name="atr3_10"]').val();  //наличие хронических заболеваний
+    if (x1=='' || v1=='' || v2=='' || x3=='' || x4=='' || x5=='' || x6=='' || x7=='' || x8=='' || x9=='' )
+        { 
+		    return('Ошибка');
+		}
+	else
+	{
+    //исходные коэффициенты умножены на 10000 для устранения ошибок в работы с длинными дробями  в js
+    y3 = Math.round(7035.16 - 2374.77*x1 - 46.824*x2 + 84.4912*x3 + 890.843*x4 + 1106.03*x5 + 2108.4*x6 + 607.051*x7 - 133.409*x8 - 388.487*x9)/10000;
+    //TODO сохранение в файл - согласовать с разработчиками
+    /*
+    0 - 0,30 – неудовлетворительная оценка состояния здоровья;  
+    0,31 - 0,69 – удовлетворительная оценка состояния здоровья; 
+    0,70 - 1,00 – хорошая оценка состояния здоровья..
+    */
+    switch(true) {
+	case (y3 <= 0.3): {
+		return 'неудовлетворительная оценка состояния здоровья';  
+		break;
+	    }
+	case (y3 < 0.7): {
+		return 'удовлетворительная оценка состояния здоровья';
+		break;
+	    }
+	default: {
+		return 'хорошая оценка состояния здоровья'
+		break;
+	    }
+    }
+	}
+}
+
+function CalcAll() {
+    var res;
+    var cur_val = $('#calc_type').children("option:selected").val();
+    if (cur_val == 1)
+	{
+       res = Calc1();
+	   }
+    if (cur_val == 2)
+	{
+       res = Calc2();
+	   }
+    if (cur_val == 3)
+	{
+       res = Calc3();
+       }
+    if (res !== 'Ошибка')
+        {alert('Прогноз: '+res);}
+    else
+       {alert('Для расчета заполните пожалуйста ответы на все вопросы');}
+}
+
+function showHide(val) {
+	switch(val) {
+    case '1':  {
+        $('.calc_type_1').show();
+		$('.calc_type_2').hide();
+		$('.calc_type_3').hide();
+		$('#btnCalc').show();
+        break;
+		}
+    case '2':  {
+        $('.calc_type_2').show();
+		$('.calc_type_1').hide();
+		$('.calc_type_3').hide();
+		$('#btnCalc').show();
+        break;
+		}
+    case '3':  {
+        $('.calc_type_3').show();
+		$('.calc_type_2').hide();
+		$('.calc_type_1').hide();
+		$('#btnCalc').show();
+		break;
+		}
+    default: {
+        $('.calc_type_1').hide();
+		$('.calc_type_2').hide();
+		$('.calc_type_3').hide();
+		$('#btnCalc').hide();
+        break;
+		}
+    }
+}
+
+function OnSelectionChange (select) {
+    var selectedVal = select.options[select.selectedIndex].value;
+    showHide(selectedVal);
+}
+
+function setState() {
+    showHide($('#calc_type').val());
+}
+</script>
+
+<title>Прогноз</title>
+</head>
+<body onload="setState()">
+<p><span style="font-size:28px;">Уважаемые женщины!</span><br>
+<span style="font-size:26px;">С целью выявления риска возникновения репродуктивного заболевания и прогнозирования нарушений репродуктивной функции,<br>
+предлагаем ответить на следующие вопросы</span></p>
+<p>Выберите интересующий Вас прогноз:<br>
+<select id="calc_type" required="required" onchange="OnSelectionChange(this)">
+<option value=""></option>
+<option value="1">Прогнозирование нарушений репродуктивной функции у поступающих на работу</option>
+<option value="2">Прогнозирование нарушений репродуктивной функции у работающих на производстве женщин</option>
+<option value="3">Прогнозирование состояния здоровья женщин с нарушением репродуктивной функции</option>
+</select>
+
+<!-- Прогноз 1 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<div class="calc_type_1" hidden="true">
+
+<p>1) Ваш возраст <select name="atr1_1" required="required" class="rfield">
+<option value=""></option>
+<option value="0">от 15 до 19 лет</option>
+<option value="0.1902">от 20 до 24 лет</option>
+<option value="0.2945">25-29 лет</option>
+<option value="0.3988">30-34 года</option>
+<option value="0.5706">35-39 лет</option>
+<option value="0.7730">40-44 года</option>
+<option value="1">45-49 лет</option></select></p>
+
+<p>2) Уровень образования <select name="atr1_2" required="required" class="rfield">
+<option value=""></option>
+<option value="0">общее среднее</option>
+<option value="0.2455">среднее специальное</option>
+<option value="0.6727">неоконченное высшее</option>
+<option value="1">высшее</option></select></p>
+
+<p>3) Где вы проживаете <select name="atr1_3" required="required" class="rfield">
+<option value=""></option>
+<option value="1">город</option>
+<option value="0">сельская местность</option></select></p>
+
+<p>4) С кем Вы проживаете <select name="atr1_4" required="required" class="rfield">
+<option value=""></option>
+<option value="0">одна</option>
+<option value="0.0944">родители (близкие родственники)</option>
+<option value="0.2333">дети</option>
+<option value="0.35">родители, дети</option>
+<option value="0.5556">муж, родители (близкие родственники)</option>
+<option value="0.65">муж (сожитель)</option>
+<option value="0.8111">муж, родители (близкие родственники), дети</option>
+<option value="1">муж (сожитель), дети</option></select>
+</p>
+
+<p>5) Как Вы оцениваете свое питание <select name="atr1_5" required="required" class="rfield">
+<option value=""></option>
+<option value="1">отличное</option>
+<option value="0.6122">хорошее</option>
+<option value="0.3571">удовлетворительное</option>
+<option value="0">неудовлетворительное</option></select>
+
+<p>6) Употребляете ли Вы алкоголь <select name="atr1_6" required="required" class="rfield">
+<option value=""></option>
+<option value="1">да</option>
+<option value="0">нет</option>
+<option value="0.3939">иногда</option></select></p>
+
+<p>7) Регулярность менструаций <select name="atr1_7" required="required" class="rfield">
+<option value=""></option>
+<option value="1">регулярные</option>
+<option value="0">нерегулярные</option></select>
+
+<p>8) Какими методами контрацепции пользуетесь <select name="atr1_8" required="required" >
+<option value=""></option>
+<option value="0">не пользуюсь</option>
+<option value="0.1944">естественные методы контрацепции (календарный, симптотермальный, метод цервикальной слизи)</option>
+<option value="0.3542">барьерные методы контрацепции (презерватив, спермициды, колпачки, диафрагмы, губки)</option>
+<option value="0.5069">контрацептивы внутриматочные</option>
+<option value="0.75">стерилизация</option>
+<option value="1">контрацепция гормональная</option>
+</select></p>
+
+<p>9) Число абортов <input maxlength="3" name="atr1_9" size="3" type="text"  /></p>
+
+<p>10) Наличие гинекологических заболеваний <select name="atr1_10" required="required">
+<option value=""></option>
+<option value="1">да</option>
+<option value="0">нет</option>
+</select></p>
+</div>
+
+<!-- Прогноз 2 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<div class="calc_type_2"  hidden="true">
+
+<p>1) Ваш возраст <select name="atr2_1" required="required" class="rfield">
+<option value=""></option>
+<option value="0">от 15 до 19 лет</option>
+<option value="0.1902">от 20 до 24 лет</option>
+<option value="0.2945">25-29 лет</option>
+<option value="0.3988">30-34 года</option>
+<option value="0.5706">35-39 лет</option>
+<option value="0.7730">40-44 года</option>
+<option value="1">45-49 лет</option></select></p>
+
+<p>2) Общий трудовой стаж (лет) <input name="atr2_2" required="required" type="text" size="3" class="rfield" /></p>
+
+<p>3) Наличие профессиональных вредностей на вашем рабочем месте <select name="atr2_3" required="required" class="rfield">
+<option value=""></option>
+<option value="1">да</option>
+<option value="0">нет</option>
+<option value="0.45">затрудняюсь ответить</option></select>
+
+<p>4) Если есть вредности, то периодичность их влияния <select name="atr2_4" required="required" class="rfield">
+<option value=""></option>
+<option value="1">постоянно</option>
+<option value="0.6953">периодически</option>
+<option value="0.3125">кратковременно</option>
+<option value="0.4601">затрудняюсь ответить</option></select>
+
+<p>5) С кем Вы проживаете <select name="atr2_5" required="required" class="rfield">
+<option value=""></option>
+<option value="0">одна</option>
+<option value="0.0944">родители (близкие родственники)</option>
+<option value="0.2333">дети</option>
+<option value="0.35">родители, дети</option>
+<option value="0.5556">муж, родители (близкие родственники)</option>
+<option value="0.65">муж (сожитель)</option>
+<option value="0.8111">муж, родители (близкие родственники), дети</option>
+<option value="1">муж (сожитель), дети</option></select>
+</p>
+
+<p>6) Как Вы оцениваете свое питание <select name="atr2_6" required="required" class="rfield">
+<option value=""></option>
+<option value="1">отличное</option>
+<option value="0.6122">хорошее</option>
+<option value="0.3571">удовлетворительное</option>
+<option value="0">неудовлетворительное</option></select>
+
+<p>7) Употребляете ли Вы алкоголь <select name="atr2_7" required="required" class="rfield">
+<option value=""></option>
+<option value="1">да</option>
+<option value="0">нет</option>
+<option value="0.3939">иногда</option></select></p>
+
+<p>8) Регулярность менструаций <select name="atr2_8" required="required" class="rfield">
+<option value=""></option>
+<option value="1">регулярные</option>
+<option value="0">нерегулярные</option></select>
+
+<p>9) Какими методами контрацепции пользуетесь <select name="atr2_9" required="required" class="rfield">
+<option value=""></option>
+<option value="0">не пользуюсь</option>
+<option value="0.1944">естественные методы контрацепции (календарный, симптотермальный, метод цервикальной слизи)</option>
+<option value="0.3542">барьерные методы контрацепции (презерватив, спермициды, колпачки, диафрагмы, губки)</option>
+<option value="0.5069">контрацептивы внутриматочные</option>
+<option value="0.75">стерилизация</option>
+<option value="1">контрацепция гормональная</option>
+</select></p>
+
+<p>10) Число абортов <input maxlength="3" name="atr2_10" size="3" type="text" /></p>
+
+<p>11) Наличие гинекологических заболеваний <select name="atr2_11" required="required" class="rfield">
+<option value=""></option>
+<option value="1">да</option>
+<option value="0">нет</option>
+</select></p>
+</div>
+
+<!-- Прогноз 3 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<div class="calc_type_3"  hidden="true">
+<p>1) Ваш возраст <select name="atr3_1" required="required" class="rfield">
+<option value=""></option>
+<option value="0">от 15 до 19 лет</option>
+<option value="0.1902">от 20 до 24 лет</option>
+<option value="0.2945">25-29 лет</option>
+<option value="0.3988">30-34 года</option>
+<option value="0.5706">35-39 лет</option>
+<option value="0.7730">40-44 года</option>
+<option value="1">45-49 лет</option></select></p>
+
+<p>2) Ваш вес (в кг) <input maxlength="3" name="atr3_2" required="required" size="3" type="text" class="rfield" /></p>
+
+<p>3) Ваш рост (в см) <input maxlength="3" name="atr3_3" size="3" type="text" /></p>
+
+<p>4) Общий трудовой стаж (лет) <input name="atr3_4" required="required" size="3"  type="text" /></p>
+
+<p>5) Как вы оцениваете санитарно-гигиенические условия труда на своем рабочем месте <select name="atr3_5" required="required" class="rfield">
+<option value=""></option>
+<option value="0">хорошие</option>
+<option value="0.45">удовлетворительные</option>
+<option value="1">неудовлетворительные</option></select>
+
+<p>6) Если Вы состоите в браке или живете вне брака с мужчиной, отметьте, какие взаимоотношения между вами <select name="atr3_6" required="required" class="rfield">
+<option value=""></option>
+<option value="1">очень хорошие</option>
+<option value="0.6304">хорошие</option>
+<option value="0.2717">удовлетворительные</option>
+<option value="0">неудовлетворительные</option></select>
+
+<p>7) Как Вы оцениваете уровень материальной обеспеченности вашей семьи <select name="atr3_7" required="required" class="rfield">
+<option value=""></option>
+<option value="1">высокий</option>
+<option value="0.6897">выше среднего</option>
+<option value="0.4224">средний</option>
+<option value="0.1983">ниже среднего</option>
+<option value="0">низкий</option>
+</select>
+
+<p>8) Как часто Вы бываете на свежем воздухе <select name="atr3_8" required="required" class="rfield">
+<option value=""></option>
+<option value="0.2847">1-2 раза в неделю</option>
+<option value="0.4861">3-4 раза в неделю</option>
+<option value="0.75">ежедневно по нескольку часов</option>
+<option value="1">почти постоянно</option>
+<option value="0.1042">почти не бываю</option>
+<option value="0">не бываю</option></select></p>
+
+<p>9) С какого возраста Вы живете половой жизнью <input maxlength="3" name="atr3_9" size="3" type="text" class="rfield" /></p>
+
+<p>10) Наличие хронических заболеваний <select name="atr3_10" required="required">
+<option value=""></option>
+<option value="1">да</option>
+<option value="0">нет</option>
+</select></p>
+
+</div>
+
+<p><input id="btnCalc" type="button" onclick="CalcAll()" value="Получить прогноз"  hidden="true"  class="btn_submit disabled" /></p>
+
+</body>
+</html>
