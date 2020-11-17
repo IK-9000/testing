@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -171,7 +171,7 @@ function CalcAll() {
     if (res !== 'Ошибка')
         {alert('Прогноз: '+res);}
     else
-       {alert('Для расчета заполните пожалуйста ответы на все вопросы');}
+       {alert('Для правильного расчета заполните ответы на все вопросы');}
 }
 
 function showHide(val) {
@@ -217,20 +217,50 @@ function setState() {
 }
 </script>
 
+
+<style type="text/css">
+body {
+	height: 100vh;
+	background-color: #F0F8FF; 
+
+    
+	font-family: Helvetica, sans-serif;
+}
+p {
+    margin-top: 10px;
+	margin-bottom: 10px;
+}
+.btn_submit {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  padding: .5em 2em;
+  outline: none;
+  border-width: 2px 0;
+  border-style: solid none;
+  border-color: #FDBE33 #000 #D77206;
+  border-radius: 6px;
+  background: linear-gradient(#F3AE0F, #E38916) #E38916;
+  transition: 0.2s;
+} 
+.btn_submit:hover { background: linear-gradient(#f5ae00, #f59500) #f5ae00; }
+.btn_submit:active { background: linear-gradient(#f59500, #f5ae00) #f59500; }
+</style>
 <title>Прогноз</title>
 </head>
 <body onload="setState()">
-<p><span style="font-size:28px;">Уважаемые женщины!</span><br>
-<span style="font-size:26px;">С целью выявления риска возникновения репродуктивного заболевания и прогнозирования нарушений репродуктивной функции,<br>
-предлагаем ответить на следующие вопросы</span></p>
-<p>Выберите интересующий Вас прогноз:<br>
+<div style="font-size:26px; text-align:center; margin-bottom:10px;">Уважаемые женщины!</div>
+<div style="font-size:20px;">Для выявления риска возникновения репродуктивного заболевания и прогнозирования нарушений<br>
+репродуктивной функции, предлагаем ответить на вопросы анкеты</div>
+<div style="margin-top:10px;">
+Выберите интересующий Вас прогноз:
 <select id="calc_type" required="required" onchange="OnSelectionChange(this)">
 <option value=""></option>
 <option value="1">Прогнозирование нарушений репродуктивной функции у поступающих на работу</option>
 <option value="2">Прогнозирование нарушений репродуктивной функции у работающих на производстве женщин</option>
 <option value="3">Прогнозирование состояния здоровья женщин с нарушением репродуктивной функции</option>
 </select>
-
+</div>
 <!-- Прогноз 1 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 <div class="calc_type_1" hidden="true">
 
